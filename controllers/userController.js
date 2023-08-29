@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/userModel');
+require('dotenv').config();
+
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 // Fonction de création d'utilisateur
 exports.createUser = (req, res) => {
@@ -49,7 +51,7 @@ exports.loginUser = (req, res) => {
             }
             const token = jwt.sign(
                 { username: fetchedUser.username, userId: fetchedUser._id },
-                'secret_key',
+                JWT_SECRET_KEY,
                 { expiresIn: '1h' }
             );
             res.status(200).json({
